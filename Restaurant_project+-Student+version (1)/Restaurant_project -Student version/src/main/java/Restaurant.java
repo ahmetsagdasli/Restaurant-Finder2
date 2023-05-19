@@ -1,7 +1,5 @@
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.*;
+import java.util.*;
 
 public class Restaurant {
     private String name;
@@ -18,15 +16,19 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
-        //DELETE ABOVE STATEMENT AND WRITE CODE HERE
+        boolean isRestaurantOpen = false;
+        if(getCurrentTime().isAfter(openingTime)&&getCurrentTime().isBefore(closingTime))
+            isRestaurantOpen = true;
+        else if(getCurrentTime().equals(openingTime))
+            isRestaurantOpen = true;
+
+        return isRestaurantOpen;
     }
 
     public LocalTime getCurrentTime(){ return  LocalTime.now(); }
 
     public List<Item> getMenu() {
-        return null;
-        //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
+        return menu;
     }
 
     private Item findItemByName(String itemName){
@@ -41,9 +43,8 @@ public class Restaurant {
         Item newItem = new Item(name,price);
         menu.add(newItem);
     }
-    
-    public void removeFromMenu(String itemName) throws itemNotFoundException {
 
+    public void removeFromMenu(String itemName) throws itemNotFoundException {
         Item itemToBeRemoved = findItemByName(itemName);
         if (itemToBeRemoved == null)
             throw new itemNotFoundException(itemName);
@@ -56,11 +57,31 @@ public class Restaurant {
                 +"Opening time:"+ openingTime +"\n"
                 +"Closing time:"+ closingTime +"\n"
                 +"Menu:"+"\n"+getMenu());
-
     }
 
     public String getName() {
         return name;
     }
 
+    public int total_value_of_selected_items(List<Item> selectedItems) {
+        int orderTotal = 0;
+        for (Item item : selectedItems) {
+            orderTotal = orderTotal + item.getPrice();
+
+        }
+
+        return orderTotal;
+    }
+
+
 }
+
+/*
+ * The code defines a Restaurant class that represents
+ * a restaurant with a name, location, opening time, 
+ * closing time, and a menu of items. It provides methods
+ *  to check if the restaurant is open, get the current time,
+ *  get the menu, add and remove items from the menu, and display
+ *  restaurant details. It also includes a method to calculate the
+ *  total value of selected items in the menu.
+ */
